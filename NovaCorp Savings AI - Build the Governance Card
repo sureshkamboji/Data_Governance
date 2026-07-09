@@ -487,3 +487,545 @@ else:
 
 print()
 print("On to Task 3 -->")
+
+
+# ================================================================
+#  TASK 3 : Your AI Model Governance Card
+#  Data Governance in the Age of AI
+#
+#  Copy the code from the Reference Code section into your
+#  Jupyter Notebook and run it. No coding needed.
+#
+#  Paste your Task 2 answers below and run the script.
+# ================================================================
+
+# ---------------------------------------------------------------
+#  PASTE YOUR TASK 2 ANSWERS HERE:
+# ---------------------------------------------------------------
+
+my_governance_card = {
+    "section_1": {
+        "what_the_model_does":  "",
+        "designed_for":         "",
+        "must_not_be_used_for": "",
+    },
+    "section_2": {
+        "data_sources":              "",
+        "representativeness_checks": "",
+        "bias_indicators_found":     "",
+        "bias_mitigation":           "",
+    },
+    "section_3": {
+        "personal_data_processed":    "",
+        "gdpr_legal_basis":           "",
+        "special_category_data":      "",
+        "data_minimisation_measures": "",
+    },
+    "section_4": {
+        "explanation_method":          "",
+        "customer_facing_explanation": "",
+        "human_review_process":        "",
+    },
+    "section_5": {
+        "drift_detection":          "",
+        "review_trigger_threshold": "",
+        "responsible_role":         "",
+        "review_frequency":         "",
+    },
+}
+
+# ================================================================
+#  DO NOT EDIT BELOW THIS LINE
+# ================================================================
+
+def w(text, width=60, pad="     "):
+    if not str(text).strip():
+        return pad + "(not provided)"
+    words = str(text).split()
+    lines, line = [], pad
+    for word in words:
+        if len(line) + len(word) + 1 > width:
+            lines.append(line)
+            line = pad
+        line += word + " "
+    if line.strip():
+        lines.append(line)
+    return "\n".join(lines)
+
+reference = {
+    "section_2": {
+        "data_sources":
+            "3 years (2021-2023) of anonymised transaction data from "
+            "2.4M existing retail customers. Includes: transaction "
+            "categories, account balance averages, savings product "
+            "holdings, 12-month spending patterns. Excludes: raw "
+            "merchant names, exact addresses, protected characteristic "
+            "fields. Data pseudonymised prior to model training. "
+            "Training data retained in the AI Data Warehouse with "
+            "access restricted to the Data Science team.",
+        "representativeness_checks":
+            "Coverage audit conducted November 2023. Finding: customers "
+            "aged 18-25 represent 12% of training data versus 28% of "
+            "active customer base. Customers with accounts under 12 "
+            "months represent 8% of training data versus 19% of base. "
+            "Regional concentration: 64% of training data from London "
+            "and South East versus 43% of customer base.",
+        "bias_indicators_found":
+            "Age-based recommendation skew detected: customers under 25 "
+            "received lower-rate product recommendations at 1.4x the "
+            "rate of 35-50 age group despite similar savings profiles. "
+            "Income-proxy correlation found: postcode correlated with "
+            "product tier recommendations at r=0.61.",
+        "bias_mitigation":
+            "Oversampling applied to 18-25 age group in training set. "
+            "Postcode removed as a model input feature. Fairness "
+            "constraints applied: demographic parity tested across age "
+            "bands and regional clusters. Independent bias audit "
+            "conducted by external AI ethics consultancy (October 2023). "
+            "Residual age gap reduced from 1.4x to 1.08x.",
+    },
+    "section_3": {
+        "personal_data_processed":
+            "At inference time: customer age band, account balance range, "
+            "transaction category summaries (last 12 months), existing "
+            "product holdings, savings frequency score (derived). "
+            "No exact income, no raw transaction data, no protected "
+            "characteristics are used at inference.",
+        "gdpr_legal_basis":
+            "Primary: GDPR Article 6(1)(a) — explicit consent given by "
+            "customer during app onboarding for personalised financial "
+            "recommendations. Consent recorded with timestamp. "
+            "Secondary: GDPR Article 6(1)(f) — legitimate interests "
+            "for fraud signal processing (balance anomaly detection). "
+            "Legitimate interests assessment completed November 2023.",
+        "special_category_data":
+            "No GDPR Article 9 special category data is processed or "
+            "inferred by this model. The model does not process health "
+            "data, racial or ethnic origin, political opinions, religious "
+            "beliefs, trade union membership, biometric data, or sexual "
+            "orientation. Annual review will confirm this position "
+            "remains accurate as model scope evolves.",
+        "data_minimisation_measures":
+            "Income band used rather than exact salary. Postcode "
+            "excluded from inference features following bias audit. "
+            "Transaction categories (14 groups) used rather than raw "
+            "merchant names. Balance ranges used rather than exact "
+            "figures. 12-month inference window rather than full "
+            "transaction history. Derived savings score replaces raw "
+            "transaction frequency data.",
+    },
+    "section_4": {
+        "explanation_method":
+            "Model uses SHAP (SHapley Additive exPlanations) values to "
+            "identify the top 3 contributing factors for each "
+            "recommendation. Factors mapped to plain-English templates "
+            "by the recommendation engine. GDPR Article 22 compliance: "
+            "recommendations are advisory and do not constitute a "
+            "solely automated decision with legal/significant effect. "
+            "Human review available on request within 3 business days. "
+            "EU AI Act Article 52: in-app disclosure that AI is being "
+            "used displayed before any recommendation is shown.",
+        "customer_facing_explanation":
+            "We recommended this account because: your regular monthly "
+            "saving pattern suggests you could benefit from a higher "
+            "interest rate; your current account balance indicates you "
+            "may have funds available to save; customers with a similar "
+            "profile have found this product meets their needs. This is "
+            "a suggestion only — it is not financial advice. You are "
+            "not required to act on it.",
+        "human_review_process":
+            "Customer can tap 'Why did I get this?' in-app for the "
+            "plain-language explanation. To challenge a recommendation "
+            "or request human review: contact NovaCorp in-app support "
+            "or call 0800 XXX XXXX. A qualified customer adviser "
+            "reviews the recommendation within 3 business days and "
+            "provides a written response. Complaints escalate to the "
+            "Data Protection Officer if unresolved.",
+    },
+    "section_5": {
+        "drift_detection":
+            "Monthly automated monitoring of: (1) recommendation "
+            "acceptance rate by product type; (2) demographic acceptance "
+            "gap across age bands and regions; (3) input feature "
+            "distribution drift using Population Stability Index; "
+            "(4) model output distribution against baseline. "
+            "Weekly monitoring dashboard reviewed by AI Governance Team.",
+        "review_trigger_threshold":
+            "Formal model review triggered if any of: overall "
+            "recommendation acceptance rate falls below 12% (baseline "
+            "18%); demographic acceptance gap between any two age bands "
+            "exceeds 8 percentage points; PSI score exceeds 0.25 on "
+            "any input feature; regulatory complaint or ICO enquiry "
+            "received relating to this model; material change to "
+            "GDPR, EU AI Act, or FCA regulations affecting scope.",
+        "responsible_role":
+            "Annual governance review: Chief Data Officer (accountable) "
+            "supported by AI Governance Lead (responsible). "
+            "Monthly monitoring review: AI Governance Team. "
+            "Privacy review: Data Protection Officer. "
+            "Bias audit: independent external reviewer (annual).",
+        "review_frequency":
+            "Routine: annual full governance review each November. "
+            "Monthly: automated monitoring metrics reviewed. "
+            "Unscheduled: triggered by threshold breach, regulatory "
+            "change, product scope change, or significant customer "
+            "complaint. Next scheduled review: November 2025.",
+    },
+}
+
+all_filled = all(
+    str(my_governance_card[sec].get(fld,"")).strip()
+    for sec in ["section_1","section_2","section_3","section_4","section_5"]
+    for fld in my_governance_card[sec]
+)
+
+if not all_filled:
+    missing_secs = [
+        sec for sec in ["section_2","section_3","section_4","section_5"]
+        if any(not str(my_governance_card[sec].get(fld,"")).strip()
+               for fld in my_governance_card[sec])
+    ]
+    print("  Paste all sections from Task 2 above.")
+    print(f"  Incomplete: {missing_secs}")
+else:
+    print("=" * 66)
+    print()
+    print("  NOVACORP BANK")
+    print("  AI MODEL GOVERNANCE CARD")
+    print("  NovaSavings Recommendation Engine  |  v1.0")
+    print("  Classification: Limited Risk (EU AI Act)")
+    print()
+    print("=" * 66)
+
+    section_titles = {
+        "section_1": ("INTENDED USE AND SCOPE",
+                      ["what_the_model_does","designed_for",
+                       "must_not_be_used_for"]),
+        "section_2": ("TRAINING DATA GOVERNANCE",
+                      ["data_sources","representativeness_checks",
+                       "bias_indicators_found","bias_mitigation"]),
+        "section_3": ("PRIVACY AND CONSENT",
+                      ["personal_data_processed","gdpr_legal_basis",
+                       "special_category_data",
+                       "data_minimisation_measures"]),
+        "section_4": ("EXPLAINABILITY AND TRANSPARENCY",
+                      ["explanation_method","customer_facing_explanation",
+                       "human_review_process"]),
+        "section_5": ("MONITORING AND REVIEW",
+                      ["drift_detection","review_trigger_threshold",
+                       "responsible_role","review_frequency"]),
+    }
+
+    field_labels = {
+        "what_the_model_does":         "What the model does",
+        "designed_for":                "Designed for",
+        "must_not_be_used_for":        "Must NOT be used for",
+        "data_sources":                "Training data sources",
+        "representativeness_checks":   "Representativeness checks",
+        "bias_indicators_found":       "Bias indicators found",
+        "bias_mitigation":             "Bias mitigation applied",
+        "personal_data_processed":     "Personal data processed",
+        "gdpr_legal_basis":            "GDPR legal basis",
+        "special_category_data":       "Special category data (Art.9)",
+        "data_minimisation_measures":  "Data minimisation measures",
+        "explanation_method":          "Explanation method",
+        "customer_facing_explanation": "Customer-facing explanation",
+        "human_review_process":        "Human review process",
+        "drift_detection":             "Drift detection",
+        "review_trigger_threshold":    "Review trigger threshold",
+        "responsible_role":            "Responsible role",
+        "review_frequency":            "Review frequency",
+    }
+
+    for sec_key, (sec_title, fields) in section_titles.items():
+        print(f"  ── {sec_title} {'─'*max(1,48-len(sec_title))}──")
+        print()
+        for fld in fields:
+            label = field_labels.get(fld, fld)
+            val   = my_governance_card[sec_key].get(fld,"")
+            ref   = reference.get(sec_key, {}).get(fld,"") \
+                    if sec_key != "section_1" else ""
+
+            print(f"  {label}:")
+            print(w(val))
+            if ref:
+                print(f"  Reference:")
+                print(w(ref))
+            print()
+
+    print("=" * 66)
+    print("  GOVERNANCE SIGN-OFF CHECKLIST:")
+    print()
+    checklist = [
+        ("Intended use and scope documented",          True),
+        ("Training data sources and bias audit filed", True),
+        ("GDPR legal basis confirmed by DPO",          True),
+        ("Special category data position confirmed",   True),
+        ("Explainability method documented",           True),
+        ("GDPR Art.22 compliance confirmed",           True),
+        ("EU AI Act transparency notice in place",     True),
+        ("Monitoring thresholds defined and active",   True),
+        ("Named accountable role confirmed",           True),
+        ("Annual review schedule set",                 True),
+    ]
+    for item, ok in checklist:
+        print(f"  {'☑' if ok else '☐'}  {item}")
+    print()
+    print("  ─────────────────────────────────────────────────")
+    print("  Governance Lead signature: ___________________")
+    print("  Chief Data Officer sign-off: _________________")
+    print("  Date approved for production: _______________")
+    print()
+    print("=" * 66)
+    print()
+    print("  WHY THIS DOCUMENT EXISTS:")
+    print()
+    print("  Before the EU AI Act, model documentation was good")
+    print("  practice. After August 2024, transparency obligations")
+    print("  for Limited Risk AI are enforceable. For High Risk AI")
+    print("  a governance card like this is legally required under")
+    print("  Annex IV before deployment.")
+    print()
+    print("  The FCA, ICO, or any supervisory authority can request")
+    print("  this document at any time. A data subject can ask how")
+    print("  the model works. A regulator can ask who reviewed it.")
+    print("  The governance card is your answer to all three.")
+    print()
+    print("=" * 66)
+    print()
+    print("  LAB COMPLETE")
+    print()
+    print("  Task 1  Read the scenario and five section guides")
+    print("  Task 2  Wrote all five governance sections")
+    print("  Task 3  Produced the AI Model Governance Card")
+    print()
+    print("  This is the document that separates organisations")
+    print("  that govern their AI from organisations that merely")
+    print("  have AI. Use this template on every model you build,")
+    print("  procure, or review going forward.")
+    print("=" * 66)
+
+
+
+
+# ================================================================
+#  TASK 3 : Sections 4 and 5
+#  Data Governance in the Age of AI : AI Model Governance Card
+#
+#  Copy the code from the Reference Code section into your
+#  Jupyter Notebook and run it. No coding needed.
+#
+#  These are the two hardest sections to write well.
+#  Section 4 requires understanding both GDPR and the EU AI Act.
+#  Section 5 requires naming a specific responsible role, not
+#  just 'the data team'.
+# ================================================================
+
+# ── SECTION 4: EXPLAINABILITY ────────────────────────────────────
+
+section_4_explainability = ""
+# Write 3-5 sentences covering:
+#
+#  DOES GDPR ARTICLE 22 APPLY?
+#  Article 22 covers solely automated decisions that produce
+#  LEGAL OR SIMILARLY SIGNIFICANT EFFECTS on a person.
+#  A product recommendation in a banking app is advisory.
+#  No one is refused access to a service based on this output.
+#  Consider whether Art 22 applies in full, or whether the
+#  lighter EU AI Act Article 52 transparency obligation applies.
+#
+#  EU AI ACT TRANSPARENCY (Art 52):
+#  Consumer-facing AI must inform users they are interacting
+#  with AI. This is the minimum obligation for Limited Risk.
+#
+#  CUSTOMER EXPLANATION PROCESS:
+#  How does a customer find out WHY they received a specific
+#  recommendation? Can they request a plain-language summary?
+#  Where in the app does this appear?
+#  Name the specific mechanism (in-app info, customer service
+#  call, written explanation on request).
+#
+#  PLAIN LANGUAGE COMMITMENT:
+#  State that explanations will be in plain English, free of
+#  statistical or technical jargon, and accessible to customers
+#  without a financial services background.
+
+# ── SECTION 5: MONITORING AND REVIEW ────────────────────────────
+
+section_5_monitoring = ""
+# Write 3-5 sentences covering:
+#
+#  DRIFT DETECTION:
+#  What is monitored on an ongoing basis?
+#  (Recommendation acceptance rates, performance parity across
+#   age groups and geographic segments, prediction distribution
+#   shifts that may signal data or model drift)
+#
+#  REVIEW TRIGGER:
+#  At what threshold is a model review triggered?
+#  (If acceptance rate drops more than X% in any demographic,
+#   or overall performance drops below Y%?)
+#  Be specific. A vague threshold is not a governance control.
+#
+#  RESPONSIBLE ROLE:
+#  Name the specific role accountable for the annual review.
+#  Must be a named role, not 'the team' or 'the bank'.
+#  Options: Chief Data Officer, Head of AI Governance,
+#  Model Risk Officer, Chief Compliance Officer, AI Ethics Lead.
+#
+#  REVIEW FREQUENCY AND SCOPE:
+#  How often is the full annual governance review conducted?
+#  What does it cover? (bias performance, regulatory changes,
+#  data drift, policy updates, user complaints log)
+
+# ================================================================
+#  Both sections written? Run the script to check.
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+# ================================================================
+
+explainability_keywords = [
+    "explain", "right to explanation", "article 22",
+    "art 22", "art. 22", "article 52", "art 52",
+    "transparency", "plain language", "plain english",
+    "understand", "clear", "accessible", "inform",
+    "customer can request", "upon request", "in-app",
+    "why they received", "how it works",
+]
+
+monitoring_role_keywords = [
+    "chief data officer", "cdo", "data officer",
+    "head of", "model risk", "compliance officer",
+    "ai ethics", "governance officer", "ai lead",
+    "director", "owner", "manager", "responsible",
+    "officer", "accountable", "lead",
+]
+
+monitoring_drift_keywords = [
+    "drift", "monitor", "performance", "acceptance",
+    "threshold", "trigger", "alert", "quarterly",
+    "monthly", "weekly", "annual", "review", "detect",
+    "parity", "demographic", "segment", "gap",
+]
+
+monitoring_threshold_keywords = [
+    "threshold", "trigger", "drops", "below",
+    "more than", "exceeds", ">", "percent", "%",
+    "decline", "fall", "deviation", "significant",
+    "flag", "escalat",
+]
+
+filled_4 = str(section_4_explainability).strip()
+filled_5 = str(section_5_monitoring).strip()
+
+if not filled_4 or not filled_5:
+    missing = []
+    if not filled_4:
+        missing.append("section_4_explainability")
+    if not filled_5:
+        missing.append("section_5_monitoring")
+    print(f"  Still to complete: {missing}")
+    print("  Fill in both sections above and run again.")
+else:
+    s4 = section_4_explainability.lower()
+    s5 = section_5_monitoring.lower()
+
+    s4_addresses_art22 = any(w in s4 for w in
+        ["article 22","art 22","art. 22","solely automated",
+         "legal effect","significant effect","not subject",
+         "does not trigger","advisory","recommendation only"])
+    s4_transparency    = any(w in s4 for w in explainability_keywords)
+    s4_plain_language  = any(w in s4 for w in
+        ["plain","clear","accessible","jargon","understand",
+         "non-technical","simple"])
+
+    s5_has_role       = any(w in s5 for w in monitoring_role_keywords)
+    s5_has_drift      = any(w in s5 for w in monitoring_drift_keywords)
+    s5_has_threshold  = any(w in s5 for w in monitoring_threshold_keywords)
+
+    checks = {
+        "S4: Addresses GDPR Art 22 applicability":
+            s4_addresses_art22,
+        "S4: References EU AI Act transparency obligation":
+            any(w in s4 for w in ["article 52","art 52",
+                                   "eu ai act","transparency",
+                                   "limited risk","inform"]),
+        "S4: Describes how a customer gets an explanation":
+            any(w in s4 for w in ["customer","request","app",
+                                   "contact","call","service",
+                                   "receive","provide","given"]),
+        "S4: Commits to plain-language explanations":
+            s4_plain_language,
+        "S5: Names a specific responsible role":
+            s5_has_role,
+        "S5: Defines a specific drift or performance threshold":
+            s5_has_threshold,
+        "S5: States review frequency and scope":
+            any(w in s5 for w in ["annual","quarterly","monthly",
+                                   "review","frequency","cover",
+                                   "assess","evaluat"]),
+    }
+
+    print("YOUR SECTION SUMMARIES:\n")
+    print(f"  S4 (Explainability): {section_4_explainability[:80].strip()}...")
+    print()
+    print(f"  S5 (Monitoring):     {section_5_monitoring[:80].strip()}...")
+    print()
+
+    print("CHECK:\n")
+    passed = 0
+    for item, ok in checks.items():
+        icon = "  [Y]" if ok else "  [ ]"
+        print(f"  {icon} {item}")
+        if ok:
+            passed += 1
+    print()
+    print(f"SCORE: {passed} out of {len(checks)}")
+    print()
+
+    if not checks["S4: Addresses GDPR Art 22 applicability"]:
+        print("  Section 4: Address Article 22 directly.")
+        print("  Art 22 covers automated decisions with legal or")
+        print("  significant effects. Ask: does this recommendation")
+        print("  deny someone access to a service or have a legal effect?")
+        print("  If not, Art 22 may not apply in full — but state that.")
+        print()
+    if not checks["S5: Names a specific responsible role"]:
+        print("  Section 5: Name the role accountable for the review.")
+        print("  'The data team will review it' is not a governance")
+        print("  control. Name a role: Chief Data Officer, Model Risk")
+        print("  Officer, Head of AI Governance. An unnamed")
+        print("  responsibility is effectively no one's responsibility.")
+        print()
+    if not checks["S5: Defines a specific drift or performance threshold"]:
+        print("  Section 5: Add a specific trigger threshold.")
+        print("  Example: 'A governance review is triggered if the")
+        print("  recommendation acceptance rate drops by more than 5%")
+        print("  in any demographic segment between quarterly reports.'")
+        print()
+
+    if passed == len(checks):
+        print("  All checks passed. Move to Task 4 for your")
+        print("  complete Model Governance Card.")
+
+print()
+print("On to Task 4 -->")
+
+
